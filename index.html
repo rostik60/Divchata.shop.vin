@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Clothing Store</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f4f4f4;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: #111;
+    color: white;
+}
+
+.nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.admin-btn {
+    background: red;
+    border: none;
+    padding: 8px 12px;
+    color: white;
+    cursor: pointer;
+}
+
+/* CONTACTS */
+.contacts {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: #222;
+    color: white;
+    padding: 10px;
+}
+
+.contacts div {
+    cursor: pointer;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(#222,#555);
+    color: white;
+}
+
+/* CATEGORIES */
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+}
+
+.categories button {
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+/* ADMIN */
+.admin {
+    background: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+/* INPUT FILE */
+input[type="file"] {
+    margin: 10px;
+}
+
+/* PRODUCTS */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 220px);
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.product {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    width: 220px;
+}
+
+.product img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.product button {
+    margin-top: 5px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div>Divchata.shop.vin</div>
+    <button class="admin-btn" onclick="openAdmin()">Адмін</button>
+    <a href="https://t.me/FITNESS_shop_u">ось наш телеграм канал</a>
+</div>
+
+<!-- CONTACTS -->
+<div class="contacts">
+    <div onclick="copy('0 (66) 798 58 64')">Viber</div>
+    <div onclick="copy('2222222222')">Telegram</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>Стильний одяг</h1>
+</div>
+
+<!-- CATEGORIES -->
+<div class="categories">
+    <button onclick="filter('all')">Всі</button>
+    <button onclick="filter('suit')">Костюми</button>
+    <button onclick="filter('tshirt')">Футболки</button>
+    <button onclick="filter('cap')">Кепки</button>
+    <button onclick="filter('vest')">Жилетки</button>
+    <button onclick="filter('sweaters')">Кофти</button>
+    <button onclick="filter('trousers')">Штани</button>
+</div>
+
+<!-- ADMIN -->
+<div id="adminPanel" class="admin hidden">
+    <h2>Адмін панель</h2>
+
+    <input id="title" placeholder="Назва"><br>
+    <input id="price" placeholder="Ціна"><br>
+
+    <!-- 🔥 ГАЛЕРЕЯ ФОТО -->
+    <input type="file" id="imgFile" accept="image/*"><br>
+
+    <select id="category">
+        <option value="suit">Костюми</option>
+        <option value="tshirt">Футболки</option>
+        <option value="cap">Кепки</option>
+        <option value="vest">Жилетки</option>
+        <option value="sweaters">Кофти</option>
+        <option value="trousers">Штани</option>
+    </select><br><br>
+
+    <button onclick="addProduct()">Додати товар</button>
+</div>
+
+<!-- PRODUCTS -->
+<div id="products" class="products"></div>
+
+<script>
+
+let isAdmin = false;
+let currentFilter = "all";
+
+// 🔥 ЗБЕРІГАННЯ
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+// ===== АДМІН =====
+function openAdmin() {
+    let pass = prompt("Пароль:");
+
+    if (pass === "12345") {
+        isAdmin = true;
+        document.getElementById("adminPanel").classList.remove("hidden");
+        render();
+    } else {
+        alert("Невірний пароль");
+    }
+}
+
+// ===== КОПІЮВАННЯ =====
+function copy(text) {
+    navigator.clipboard.writeText(text);
+    alert("Скопійовано: " + text);
+}
+
+// ===== ДОДАТИ =====
+function addProduct() {
+
+    let t = document.getElementById("title").value;
+    let p = document.getElementById("price").value;
+    let c = document.getElementById("category").value;
+    let file = document.getElementById("imgFile").files[0];
+
+    if (!file) {
+        alert("Вибери фото!");
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function() {
+
+        let product = {
+            id: Date.now(),
+            title: t,
+            price: p,
+            image: reader.result,
+            category: c
+        };
+
+        products.push(product);
+        save();
+        render();
+    };
+
+    reader.readAsDataURL(file);
+}
+
+// ===== ВИДАЛИТИ =====
+function del(id) {
+    products = products.filter(p => p.id !== id);
+    save();
+    render();
+}
+
+// ===== ЗБЕРЕГТИ =====
+function save() {
+    localStorage.setItem("products", JSON.stringify(products));
+}
+
+// ===== ФІЛЬТР =====
+function filter(cat) {
+    currentFilter = cat;
+    render();
+}
+
+// ===== РЕНДЕР =====
+function render() {
+
+    let box = document.getElementById("products");
+    box.innerHTML = "";
+
+    products.forEach(p => {
+
+        if (currentFilter !== "all" && p.category !== currentFilter) return;
+
+        let div = document.createElement("div");
+        div.className = "product";
+
+        div.innerHTML = `
+            <img src="${p.image}">
+            <h3>${p.title}</h3>
+            <p>${p.price} грн</p>
+            ${isAdmin ? `<button onclick="del(${p.id})">Видалити</button>` : ""}
+        `;
+
+        box.appendChild(div);
+    });
+}
+
+// ===== ПЕРШИЙ ЗАПУСК =====
+render();
+
+</script>
+
+</body>
+</html>
