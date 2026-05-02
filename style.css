@@ -1,127 +1,360 @@
-body {
-    margin: 0;
-    font-family: Arial;
-    background: #f4f4f4;
+/* ========================= */
+/* RESET */
+/* ========================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
+body{
+    font-family:Arial, sans-serif;
+    background:#f4f4f4;
+    color:#111;
+}
+
+/* ========================= */
 /* HEADER */
-.header {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    background: #111;
-    color: white;
+/* ========================= */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 25px;
+    background:#111;
+    color:white;
+    position:sticky;
+    top:0;
+    z-index:1000;
 }
 
-.nav a {
-    color: white;
-    margin: 0 10px;
-    text-decoration: none;
+.logo{
+    font-size:22px;
+    font-weight:bold;
 }
 
-.admin-btn {
-    background: red;
-    border: none;
-    padding: 8px 12px;
-    color: white;
+.nav{
+    display:flex;
+    gap:15px;
 }
 
+.nav a{
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.nav a:hover{
+    opacity:0.7;
+}
+
+.admin-btn{
+    background:red;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.admin-btn:hover{
+    transform:scale(1.05);
+}
+
+/* ========================= */
 /* CONTACTS */
-.contacts {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    background: #222;
-    color: white;
-    padding: 10px;
+/* ========================= */
+.contacts{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    background:#222;
+    padding:12px;
+    flex-wrap:wrap;
 }
 
-.contacts div {
-    cursor: pointer;
+.contacts div{
+    color:white;
+    border:1px solid white;
+    padding:8px 15px;
+    border-radius:20px;
+    cursor:pointer;
+    transition:0.3s;
 }
 
+.contacts div:hover{
+    background:white;
+    color:black;
+}
+
+/* ========================= */
 /* HERO */
-.hero {
-    text-align: center;
-    padding: 50px;
-    background: linear-gradient(#222,#555);
-    color: white;
+/* ========================= */
+.hero{
+    text-align:center;
+    padding:60px 20px;
+    background:linear-gradient(135deg,#222,#555);
+    color:white;
 }
 
+.hero h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    opacity:0.8;
+}
+
+/* ========================= */
 /* CATEGORIES */
-.categories {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding: 15px;
+/* ========================= */
+.categories{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    padding:20px;
+    flex-wrap:wrap;
 }
 
-.categories button {
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 20px;
+.categories button{
+    padding:10px 15px;
+    border:none;
+    border-radius:20px;
+    background:white;
+    cursor:pointer;
+    transition:0.3s;
+    font-weight:bold;
 }
 
-/* ADMIN */
-.admin {
-    background: white;
-    padding: 20px;
-    text-align: center;
+.categories button:hover{
+    background:#ddd;
 }
 
-.hidden {
-    display: none;
+/* ========================= */
+/* ADMIN PANEL */
+/* ========================= */
+.admin{
+    background:white;
+    width:90%;
+    max-width:500px;
+    margin:20px auto;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    text-align:center;
 }
 
+.hidden{
+    display:none;
+}
+
+.admin h2{
+    margin-bottom:20px;
+}
+
+.admin input,
+.admin select{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.admin button{
+    width:100%;
+    margin-top:15px;
+    padding:12px;
+    border:none;
+    background:black;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.admin button:hover{
+    background:#333;
+}
+
+/* ========================= */
 /* PRODUCTS */
-.products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-    gap: 15px;
-    padding: 20px;
+/* ========================= */
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 220px));
+    justify-content:center;
+    gap:20px;
+    padding:20px;
 }
 
-.product {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
+.product{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
 }
 
-.product img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    .product {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-
-    /* 🔥 ГОЛОВНЕ — фіксуємо розмір */
-    width: 220px;
-    justify-self: center;
-
-    /* щоб не розтягувався */
-    display: flex;
-    flex-direction: column;
-
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: 0.3s;
+.product:hover{
+    transform:translateY(-5px);
 }
 
-.product img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 8px;
+.product img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
 }
 
-/* щоб сітка виглядала акуратно */
-.products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 220px);
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
+.product-info{
+    padding:12px;
 }
+
+.product-info h3{
+    font-size:18px;
+    margin-bottom:5px;
+}
+
+.product-info p{
+    color:green;
+    font-weight:bold;
+}
+
+.product button{
+    width:100%;
+    border:none;
+    background:red;
+    color:white;
+    padding:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.product button:hover{
+    background:darkred;
+}
+
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+.footer{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:30px;
+}
+
+/* ========================= */
+/* 💻 LAPTOPS */
+/* ========================= */
+@media (max-width: 1024px){
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .products{
+        grid-template-columns:repeat(auto-fit, minmax(200px, 220px));
+    }
+}
+
+/* ========================= */
+/* 📱 TABLETS */
+/* ========================= */
+@media (max-width: 768px){
+
+    .header{
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
+
+    .nav{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .hero{
+        padding:40px 15px;
+    }
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    .categories{
+        padding:15px;
+    }
+
+    .products{
+        grid-template-columns:repeat(auto-fit, minmax(180px, 200px));
+    }
+}
+
+/* ========================= */
+/* 📱 PHONES */
+/* ========================= */
+@media (max-width: 480px){
+
+    .header{
+        padding:15px 10px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .hero{
+        padding:30px 10px;
+    }
+
+    .hero h1{
+        font-size:24px;
+    }
+
+    .hero p{
+        font-size:14px;
+    }
+
+    .contacts{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .contacts div{
+        width:90%;
+        text-align:center;
+    }
+
+    .categories{
+        gap:8px;
+    }
+
+    .categories button{
+        width:45%;
+    }
+
+    .products{
+        grid-template-columns:1fr;
+        padding:15px;
+    }
+
+    .product{
+        width:100%;
+        max-width:260px;
+        margin:auto;
+    }
+
+    .product img{
+        height:240px;
+    }
+
+    .admin{
+        width:95%;
+    }
 }
